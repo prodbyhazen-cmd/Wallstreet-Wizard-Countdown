@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wizard Countdown</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: radial-gradient(circle at top, #1a0033, #000);
+      overflow: hidden;
+      color: white;
+      font-family: Arial, sans-serif;
+    }
+
+    /* Stars */
+    .stars {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      overflow: hidden;
+    }
+
+    .star {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: white;
+      border-radius: 50%;
+      animation: twinkle 2s infinite ease-in-out;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.2; }
+      50% { opacity: 1; }
+    }
+
+    /* Floating wizard */
+    .wizard {
+      width: 200px;
+      animation: float 2s ease-in-out infinite;
+      z-index: 2;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-15px); }
+      100% { transform: translateY(0px); }
+    }
+
+    .timer {
+      margin-top: 20px;
+      font-size: 2rem;
+      letter-spacing: 2px;
+      z-index: 2;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="stars" id="stars"></div>
+
+  <img src="wizard.png" alt="Wizard" class="wizard">
+  <div class="timer" id="timer">48:00:00</div>
+
+  <script>
+    // Create stars
+    const starsContainer = document.getElementById('stars');
+    for (let i = 0; i < 100; i++) {
+      const star = document.createElement('div');
+      star.className = 'star';
+      star.style.top = Math.random() * 100 + '%';
+      star.style.left = Math.random() * 100 + '%';
+      star.style.animationDelay = Math.random() * 2 + 's';
+      starsContainer.appendChild(star);
+    }
+
+    // Countdown timer
+    let totalSeconds = 48 * 60 * 60;
+
+    function updateTimer() {
+      let hours = Math.floor(totalSeconds / 3600);
+      let minutes = Math.floor((totalSeconds % 3600) / 60);
+      let seconds = totalSeconds % 60;
+
+      document.getElementById('timer').textContent =
+        String(hours).padStart(2, '0') + ':' +
+        String(minutes).padStart(2, '0') + ':' +
+        String(seconds).padStart(2, '0');
+
+      if (totalSeconds > 0) {
+        totalSeconds--;
+      }
+    }
+
+    setInterval(updateTimer, 1000);
+  </script>
+
+</body>
+</html>
